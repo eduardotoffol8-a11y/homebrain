@@ -75,34 +75,70 @@
 
   <script src="content.js"></script>
   <script>
-    document.querySelectorAll('#mainNav a').forEach(a => {
-      if (a.getAttribute('href') === 'trilhas.html') a.classList.add('active');
-    });
+    // Aguarda o content.js estar carregado
+    (function init() {
+      if (!window.HB || !window.HB.content) {
+        return requestAnimationFrame(init);
+      }
+      run();
+    })();
 
-    const trails = [
-      { title:"Foco e Disciplina",            desc:"Desenvolva foco profundo e hábitos de alta performance para conquistar seus objetivos.", icon:"🧠", tag:"Mente",     aulas:12, feitas:6,  nivel:"Iniciante"  },
-      { title:"Aprender para Ensinar",         desc:"Como absorver e transmitir conhecimento de forma eficaz e transformadora.",           icon:"💡", tag:"Educação",  aulas:15, feitas:8,  nivel:"Intermediário" },
-      { title:"Comunicação Eficaz",            desc:"Fale com clareza, ouça com presença e construa conexões reais em qualquer contexto.", icon:"💬", tag:"Carreira",  aulas:10, feitas:5,  nivel:"Iniciante"  },
-      { title:"Liderança e Gestão",            desc:"Lidere equipes, gerencie projetos e crie culturas de alto desempenho.",               icon:"👥", tag:"Carreira",  aulas:14, feitas:7,  nivel:"Avançado"   },
-      { title:"Saúde Mental e Equilíbrio",     desc:"Ferramentas práticas para gerenciar ansiedade, estresse e bem-estar emocional.",     icon:"🌿", tag:"Saúde",    aulas:9,  feitas:0,  nivel:"Iniciante"  },
-      { title:"Finanças do Zero",              desc:"Da dívida ao patrimônio: aprenda a gerenciar e investir dinheiro com inteligência.", icon:"💰", tag:"Finanças",  aulas:16, feitas:4,  nivel:"Iniciante"  },
-      { title:"Ciência do Sono",               desc:"Durma melhor, acorde disposto e maximize seu desempenho cognitivo.",                 icon:"🌙", tag:"Saúde",    aulas:8,  feitas:8,  nivel:"Iniciante"  },
-      { title:"Criatividade e Inovação",       desc:"Técnicas de pensamento criativo para resolver problemas e criar soluções únicas.",   icon:"🎨", tag:"Criatividade",aulas:11,feitas:3,  nivel:"Intermediário" },
-      { title:"Estoicismo Prático",            desc:"Filosofia aplicada ao dia a dia: resiliência, foco e serenidade em qualquer situação.",icon:"⚡",tag:"Filosofia", aulas:10, feitas:0,  nivel:"Intermediário" },
-    ];
+    function run() {
+      const { trails } = window.HB.content;
 
-    const tags = ['Todas', ...new Set(trails.map(t => t.tag))];
-    let activeTag = 'Todas';
+      document.querySelectorAll('#mainNav a').forEach(a => {
+        if (a.getAttribute('href') === 'trilhas.html') a.classList.add('active');
+      });
 
-    const chipsEl = document.getElementById('trailChips');
-    chipsEl.innerHTML = tags.map(t =>
-      `<button class="pg-chip${t==='Todas'?' active':''}" data-tag="${t}">${t}</button>`
-    ).join('');
+      // Extrair tags únicas de todas as trilhas
+      const tags = ['Todas', ...new Set(trails.flatMap(t => t.tags || []))];
+      let activeTag = 'Todas';
 
-    function render() {
-      const filtered = activeTag === 'Todas' ? trails : trails.filter(t => t.tag === activeTag);
-      document.getElementById('trailsGrid2').innerHTML = filtered.map(t => {
-        const pct = Math.round((t.feitas / t.aulas) * 100);
+      const chipsEl = document.getElementById('trailChips');
+      chipsEl.innerHTML = tags.map(t =>
+        `<button class="pg-chip${t==='Todas'?' active':''}" data-tag="${t}">${t}</button>`
+      ).join('');
+
+      function render() {
+        const filtered = activeTag === 'Todas' ? trails : trails.filter(t => (t.tags || []).includes(activeTag));
+        document.getElementById('trailsGrid2').innerHTML = filtered.map(t => {
+          const pct = Math.round((t.completed / t.lessons) * 100);
+          const done = pct === 100;
+          return `
+            <article class="hb-trail-card2" onclick="window.location='produto.html?id=${t.productIds?.[0] || '#'}'" style="cursor:pointer;background-image:url('${t.image}');background-size:cover;background-position:center">
+              <div class="hb-trail-overlay2" style="background:linear-gradient(180deg,transparent 0%,rgba(0,0,0,0.85) 85%);padding:20px;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
+                <div style="display:flex;gap:8px;margin-bottom:12px">
+                  ${(t.tags || []).slice(0,2).map(tag => `<span style="font-size:0.7rem;background:rgba(75,132,255,0.5);padding:3px 8px;border-radius:3px">${tag}</span>`).join('')}
+                </div>
+                <div class="pg-trail-title2">${t.title}</div>
+                <div class="pg-trail-desc">${t.description || t.desc || ''}</div>
+                <div class="pg-trail-meta" style="display:flex;justify-content:space-between;font-size:0.85rem;margin-top:12px;color:rgba(255,255,255,0.8)">
+                  <span>${t.completed}/${t.lessons} aulas</span>
+                  <span style="color:${done?'#19f2c4':'var(--muted)'}">${done ? '✓ Concluída' : pct + '% concluída'}</span>
+                </div>
+                <div class="pg-trail-bar2" style="margin-top:12px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
+                  <div class="pg-trail-prog" style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:2px"></div>
+                </div>
+                <button class="hb-btn hb-btn-primary" style="width:100%;margin-top:14px;border-radius:10px;padding:10px;font-size:.85rem;justify-content:center" onclick="event.stopPropagation();window.location='produto.html?id=${t.productIds?.[0] || '#'}'">
+                  ${t.completed === 0 ? 'Começar trilha' : done ? 'Revisar' : 'Continuar'}
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      chipsEl.addEventListener('click', e => {
+        const chip = e.target.closest('[data-tag]');
+        if (!chip) return;
+        activeTag = chip.dataset.tag;
+        document.querySelectorAll('.pg-chip').forEach(c => c.classList.toggle('active', c.dataset.tag === activeTag));
+        render();
+      });
+
+      render();
+    }
+  </script>
         const done = t.feitas === t.aulas;
         return `
           <article class="pg-trail-card2">

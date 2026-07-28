@@ -245,211 +245,248 @@
   </footer>
 
   <script src="content.js"></script>
+  <script src="content.js"></script>
   <script>
-    // ── Tabs ──────────────────────────────────────────────────
-    document.querySelectorAll('.pg-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.pg-tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.pg-tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    // ── Chapters ──────────────────────────────────────────────
-    const chapters = [
-      { n:1, title:"Como o cérebro aprende",             dur:"24:38", text:"O cérebro humano possui cerca de 86 bilhões de neurônios conectados em redes complexas. A aprendizagem ocorre quando essas conexões são fortalecidas por repetição e emoção." },
-      { n:2, title:"Memória de curto e longo prazo",      dur:"18:45", text:"A memória não é um arquivo estático. Cada vez que você acessa uma memória, ela é reconstruída. A consolidação da memória ocorre principalmente durante o sono." },
-      { n:3, title:"Plasticidade neuronal",               dur:"22:10", text:"O cérebro adulto continua criando novas conexões neurais. A neuroplasticidade significa que a capacidade de aprender não diminui com a idade — ela muda de forma." },
-      { n:4, title:"A técnica da repetição espaçada",     dur:"20:55", text:"Revisar conteúdo em intervalos crescentes é a técnica mais eficaz para retenção de longo prazo, segundo dezenas de estudos em neurociência cognitiva." },
-      { n:5, title:"Emoção e aprendizagem",               dur:"16:30", text:"A amígdala, centro emocional do cérebro, fortalece as memórias associadas a emoções. Aprender algo que nos move emocionalmente é aprender com mais profundidade." },
-      { n:6, title:"Sono e consolidação de memórias",    dur:"19:20", text:"Durante o sono REM, o hipocampo 'replay' os aprendizados do dia para o córtex, consolidando as informações em memória de longo prazo." },
-      { n:7, title:"Foco profundo e Flow",                dur:"25:10", text:"O estado de flow — descrito por Csikszentmihalyi — é a condição ideal para o aprendizado. Nele, o cérebro libera dopamina e norepinefrina, otimizando a atenção." },
-      { n:8, title:"Técnicas práticas para estudar mais", dur:"21:42", text:"Aplicando os princípios da neurociência: intervalos ativos, autoexplicação, prática de recordação e simulação são as estratégias mais comprovadas pela ciência." },
-    ];
-
-    let currentChapter = 0;
-    let isPlaying = false;
-    let progress = 0;
-    let progressInterval = null;
-    let utterance = null;
-
-    document.getElementById('chapterList').innerHTML = chapters.map((c, i) => `
-      <li class="pg-chapter-item" data-idx="${i}">
-        <span class="pg-chapter-num">${c.n}</span>
-        <span class="pg-chapter-title">${c.title}</span>
-        <span class="pg-chapter-dur">${c.dur}</span>
-        <span class="pg-chapter-play">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-        </span>
-      </li>
-    `).join('');
-
-    document.getElementById('chapterList').addEventListener('click', e => {
-      const li = e.target.closest('[data-idx]');
-      if (li) {
-        currentChapter = parseInt(li.dataset.idx);
-        loadChapter();
-        playChapter();
+    // Aguarda o content.js estar carregado
+    (function init() {
+      if (!window.HB || !window.HB.content) {
+        return requestAnimationFrame(init);
       }
-    });
+      run();
+    })();
 
-    function loadChapter() {
-      const c = chapters[currentChapter];
-      document.getElementById('playerTitle').textContent = `Cap. ${c.n} — ${c.title}`;
-      document.getElementById('timeTotal').textContent = c.dur;
-      progress = 0;
-      document.getElementById('progressFill').style.width = '0%';
-      document.getElementById('timeElapsed').textContent = '0:00';
-    }
+    function run() {
+      const { products } = window.HB.content;
+      
+      // Extrair ID da URL: produto.html?id=python-fundamentos
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get('id');
+      const product = productId ? products.find(p => p.id === productId) : products[0];
+      
+      if (!product) {
+        document.body.innerHTML = '<div style="text-align:center;padding:60px;color:#999">Produto não encontrado</div>';
+        return;
+      }
 
-    function playChapter() {
-      stopProgress();
-      if (speechSynthesis.speaking) speechSynthesis.cancel();
-      const c = chapters[currentChapter];
-      utterance = new SpeechSynthesisUtterance(c.text);
-      utterance.lang = 'pt-BR';
-      utterance.rate = parseFloat(document.getElementById('speedSelect').value);
-      utterance.onend = () => {
-        isPlaying = false;
-        stopProgress();
-        document.getElementById('playIcon').style.display = 'block';
-        document.getElementById('pauseIcon').style.display = 'none';
-        if (currentChapter < chapters.length - 1) {
-          currentChapter++;
-          loadChapter();
+      // Normalizar chapters
+      const chapters = (product.chapters || []).map((c, i) => ({
+        n: i + 1,
+        title: c.title || `Capítulo ${i + 1}`,
+        dur: c.duration || '15:00',
+        text: c.text || c.title || 'Conteúdo em breve'
+      }));
+
+      // ── RENDERIZAR HEADER DINÂMICO ──────────────
+      document.querySelectorAll('.pg-product-img').forEach(el => {
+        el.style.backgroundImage = `url('${product.image}')`;
+      });
+      document.querySelectorAll('.pg-product-title').forEach(el => el.textContent = product.title);
+      document.querySelectorAll('.pg-product-author').forEach(el => el.textContent = product.author || 'HomeBrain');
+      document.querySelectorAll('.pg-product-price').forEach(el => el.textContent = product.priceFormatted);
+      document.querySelectorAll('.pg-product-rating').forEach(el => {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+          stars += `<span class="hb-star${i > product.rating ? " empty" : ""}">★</span>`;
         }
-      };
-      speechSynthesis.speak(utterance);
-      isPlaying = true;
-      document.getElementById('playIcon').style.display = 'none';
-      document.getElementById('pauseIcon').style.display = 'block';
-      startProgress();
-    }
+        el.innerHTML = stars + ` <span class="hb-reviews">(${product.reviews})</span>`;
+      });
+      document.querySelectorAll('.pg-product-desc').forEach(el => el.textContent = product.description);
+      document.querySelectorAll('.pg-product-full').forEach(el => el.textContent = product.fullDescription || product.description);
 
-    function startProgress() {
-      const dur = parseDur(chapters[currentChapter].dur);
-      const tick = 300;
-      progressInterval = setInterval(() => {
-        progress = Math.min(progress + (tick / (dur * 1000)) * 100, 100);
-        document.getElementById('progressFill').style.width = progress + '%';
-        const elapsed = Math.round((progress / 100) * dur);
-        document.getElementById('timeElapsed').textContent = fmtTime(elapsed);
-      }, tick);
-    }
+      // ── Tabs ────────────────────────────────────
+      document.querySelectorAll('.pg-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.pg-tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.pg-tab-content').forEach(c => c.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+      });
 
-    function stopProgress() {
-      clearInterval(progressInterval);
-      progressInterval = null;
-    }
+      // ── Audio Player ─────────────────────────
+      let currentChapter = 0;
+      let isPlaying = false;
+      let progress = 0;
+      let progressInterval = null;
+      let utterance = null;
 
-    function parseDur(s) {
-      const [m, sec] = s.split(':').map(Number);
-      return m * 60 + sec;
-    }
+      // Renderizar lista de capítulos
+      document.getElementById('chapterList').innerHTML = chapters.map((c, i) => `
+        <li class="pg-chapter-item" data-idx="${i}">
+          <span class="pg-chapter-num">${c.n}</span>
+          <span class="pg-chapter-title">${c.title}</span>
+          <span class="pg-chapter-dur">${c.dur}</span>
+          <span class="pg-chapter-play">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </span>
+        </li>
+      `).join('');
 
-    function fmtTime(s) {
-      const m = Math.floor(s / 60);
-      const sec = s % 60;
-      return `${m}:${sec.toString().padStart(2,'0')}`;
-    }
-
-    document.getElementById('playBtn').addEventListener('click', () => {
-      if (isPlaying) {
-        speechSynthesis.pause();
-        stopProgress();
-        isPlaying = false;
-        document.getElementById('playIcon').style.display = 'block';
-        document.getElementById('pauseIcon').style.display = 'none';
-      } else {
-        if (speechSynthesis.paused) {
-          speechSynthesis.resume();
-          startProgress();
-        } else {
+      document.getElementById('chapterList').addEventListener('click', e => {
+        const li = e.target.closest('[data-idx]');
+        if (li) {
+          currentChapter = parseInt(li.dataset.idx);
+          loadChapter();
           playChapter();
         }
+      });
+
+      function loadChapter() {
+        if (!chapters[currentChapter]) return;
+        const c = chapters[currentChapter];
+        document.getElementById('playerTitle').textContent = `Cap. ${c.n} — ${c.title}`;
+        document.getElementById('timeTotal').textContent = c.dur;
+        progress = 0;
+        document.getElementById('progressFill').style.width = '0%';
+        document.getElementById('timeElapsed').textContent = '0:00';
+      }
+
+      function playChapter() {
+        stopProgress();
+        if (speechSynthesis.speaking) speechSynthesis.cancel();
+        const c = chapters[currentChapter];
+        if (!c) return;
+        utterance = new SpeechSynthesisUtterance(c.text);
+        utterance.lang = 'pt-BR';
+        utterance.rate = parseFloat(document.getElementById('speedSelect').value);
+        utterance.onend = () => {
+          isPlaying = false;
+          stopProgress();
+          document.getElementById('playIcon').style.display = 'block';
+          document.getElementById('pauseIcon').style.display = 'none';
+          if (currentChapter < chapters.length - 1) {
+            currentChapter++;
+            loadChapter();
+          }
+        };
+        speechSynthesis.speak(utterance);
         isPlaying = true;
         document.getElementById('playIcon').style.display = 'none';
         document.getElementById('pauseIcon').style.display = 'block';
+        startProgress();
       }
-    });
 
-    document.getElementById('voiceBtn').addEventListener('click', playChapter);
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentChapter > 0) { currentChapter--; loadChapter(); }
-    });
-    document.getElementById('nextBtn2').addEventListener('click', () => {
-      if (currentChapter < chapters.length - 1) { currentChapter++; loadChapter(); }
-    });
-    document.getElementById('rewindBtn').addEventListener('click', () => {
-      progress = Math.max(0, progress - 5);
-      document.getElementById('progressFill').style.width = progress + '%';
-    });
-    document.getElementById('forwardBtn').addEventListener('click', () => {
-      progress = Math.min(100, progress + 5);
-      document.getElementById('progressFill').style.width = progress + '%';
-    });
-    document.getElementById('speedSelect').addEventListener('change', e => {
-      if (utterance) utterance.rate = parseFloat(e.target.value);
-    });
-    document.getElementById('progressBar').addEventListener('click', e => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      progress = ((e.clientX - rect.left) / rect.width) * 100;
-      document.getElementById('progressFill').style.width = progress + '%';
-    });
+      function startProgress() {
+        const dur = parseDur(chapters[currentChapter].dur);
+        const tick = 300;
+        progressInterval = setInterval(() => {
+          progress = Math.min(progress + (tick / (dur * 1000)) * 100, 100);
+          document.getElementById('progressFill').style.width = progress + '%';
+          const elapsed = Math.round((progress / 100) * dur);
+          document.getElementById('timeElapsed').textContent = fmtTime(elapsed);
+        }, tick);
+      }
 
-    // ── Reviews ──────────────────────────────────────────────
-    const reviews = [
-      { name:"Ana Paula Ferreira",  init:"A", rating:5, date:"12 Jul 2026", text:"Livro incrível! Mudou completamente a forma como eu estudo. A parte sobre repetição espaçada foi um game-changer para mim." },
-      { name:"Marcos Oliveira",     init:"M", rating:5, date:"8 Jul 2026",  text:"Finalmente um livro de neurociência acessível e prático. Cada capítulo tem insights que aplico imediatamente no meu dia a dia." },
-      { name:"Juliana Santos",      init:"J", rating:5, date:"2 Jul 2026",  text:"Recomendo para qualquer pessoa que quer estudar melhor. A parte do sono e memória abriu minha cabeça! A leitura em voz da plataforma é perfeita." },
-    ];
+      function stopProgress() {
+        clearInterval(progressInterval);
+        progressInterval = null;
+      }
 
-    document.getElementById('ratingBars').innerHTML = [5,4,3,2,1].map(star => {
-      const pct = star === 5 ? 89 : star === 4 ? 8 : star === 3 ? 2 : 1;
-      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-        <span style="font-size:.72rem;color:var(--muted);width:20px">${star}★</span>
-        <div style="flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:3px">
-          <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:3px"></div>
-        </div>
-        <span style="font-size:.72rem;color:var(--muted);width:28px">${pct}%</span>
-      </div>`;
-    }).join('');
+      function parseDur(s) {
+        const [m, sec] = s.split(':').map(Number);
+        return m * 60 + sec;
+      }
 
-    document.getElementById('reviewList').innerHTML = reviews.map(r => `
-      <div class="pg-review">
-        <div class="pg-review-header">
-          <div class="pg-reviewer-av">${r.init}</div>
-          <div>
-            <div class="pg-reviewer-name">${r.name}</div>
-            <div class="pg-reviewer-date">${r.date}</div>
+      function fmtTime(s) {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${m}:${sec.toString().padStart(2,'0')}`;
+      }
+
+      // Player buttons
+      document.getElementById('playBtn').addEventListener('click', () => {
+        if (isPlaying) {
+          speechSynthesis.pause();
+          stopProgress();
+          isPlaying = false;
+          document.getElementById('playIcon').style.display = 'block';
+          document.getElementById('pauseIcon').style.display = 'none';
+        } else {
+          if (speechSynthesis.paused) {
+            speechSynthesis.resume();
+            startProgress();
+          } else {
+            playChapter();
+          }
+          isPlaying = true;
+          document.getElementById('playIcon').style.display = 'none';
+          document.getElementById('pauseIcon').style.display = 'block';
+        }
+      });
+
+      document.getElementById('voiceBtn')?.addEventListener('click', playChapter);
+      document.getElementById('prevBtn')?.addEventListener('click', () => {
+        if (currentChapter > 0) { currentChapter--; loadChapter(); }
+      });
+      document.getElementById('nextBtn2')?.addEventListener('click', () => {
+        if (currentChapter < chapters.length - 1) { currentChapter++; loadChapter(); }
+      });
+      document.getElementById('rewindBtn')?.addEventListener('click', () => {
+        progress = Math.max(0, progress - 5);
+        document.getElementById('progressFill').style.width = progress + '%';
+      });
+      document.getElementById('forwardBtn')?.addEventListener('click', () => {
+        progress = Math.min(100, progress + 5);
+        document.getElementById('progressFill').style.width = progress + '%';
+      });
+      document.getElementById('speedSelect')?.addEventListener('change', e => {
+        if (utterance) utterance.rate = parseFloat(e.target.value);
+      });
+      document.getElementById('progressBar')?.addEventListener('click', e => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        progress = ((e.clientX - rect.left) / rect.width) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+      });
+
+      loadChapter();
+
+      // ── Reviews (usar dados de exemplo baseados no produto) ──
+      const reviews = [
+        { name:"Usuário 1", init:"U1", rating:5, date:"Hoje", text:"Excelente conteúdo! Muito didático e bem estruturado." },
+        { name:"Usuário 2", init:"U2", rating:5, date:"Ontem", text:"Superou minhas expectativas. Recomendo!" },
+        { name:"Usuário 3", init:"U3", rating:5, date:"Semana passada", text:"Perfeito para iniciantes e intermediários." },
+      ];
+
+      document.getElementById('ratingBars').innerHTML = [5,4,3,2,1].map(star => {
+        const pct = star === 5 ? 89 : star === 4 ? 8 : star === 3 ? 2 : 1;
+        return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+          <span style="font-size:.72rem;color:var(--muted);width:20px">${star}★</span>
+          <div style="flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:3px">
+            <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:3px"></div>
           </div>
-          <div class="hb-stars" style="margin-left:auto">
-            ${'<span class="hb-star">★</span>'.repeat(r.rating)}
+          <span style="font-size:.72rem;color:var(--muted);width:28px">${pct}%</span>
+        </div>`;
+      }).join('');
+
+      document.getElementById('reviewList').innerHTML = reviews.map(r => `
+        <div class="pg-review">
+          <div class="pg-review-header">
+            <div class="pg-reviewer-av">${r.init}</div>
+            <div>
+              <div class="pg-reviewer-name">${r.name}</div>
+              <div class="pg-reviewer-date">${r.date}</div>
+            </div>
+            <div class="hb-stars" style="margin-left:auto">
+              ${'<span class="hb-star">★</span>'.repeat(r.rating)}
+            </div>
           </div>
+          <div class="pg-review-text">${r.text}</div>
         </div>
-        <div class="pg-review-text">${r.text}</div>
-      </div>
-    `).join('');
+      `).join('');
 
-    // ── Related products ──────────────────────────────────────
-    const related = [
-      { title:"Inteligência Emocional", icon:"🧠", price:"R$ 49,90", bg:"linear-gradient(155deg,#1a1264,#3b1a78)" },
-      { title:"Mindset de Crescimento", icon:"🌱", price:"R$ 42,90", bg:"linear-gradient(155deg,#003d1a,#006636)" },
-      { title:"A Mente Iluminada",      icon:"✨", price:"R$ 38,90", bg:"linear-gradient(155deg,#2d1a50,#5a2d80)" },
-      { title:"Física Quântica",        icon:"⚛️", price:"R$ 54,90", bg:"linear-gradient(155deg,#001a40,#003d80)" },
-    ];
-
-    document.getElementById('relatedGrid').innerHTML = related.map(r => `
-      <a class="pg-grid-card" href="produto.html">
-        <div class="pg-grid-thumb" style="background:${r.bg}">${r.icon}</div>
-        <div class="pg-grid-body">
-          <div class="pg-grid-title">${r.title}</div>
-          <div class="pg-grid-price">${r.price}</div>
-          <button class="pg-grid-btn">Ver produto</button>
-        </div>
-      </a>
-    `).join('');
+      // ── Produtos relacionados ───────────────────
+      const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+      document.getElementById('relatedGrid').innerHTML = related.map(r => `
+        <a class="pg-grid-card" href="produto.html?id=${r.id}" style="cursor:pointer">
+          <div class="pg-grid-thumb" style="background-image:url('${r.image}');background-size:cover;background-position:center"></div>
+          <div class="pg-grid-body">
+            <div class="pg-grid-title">${r.title}</div>
+            <div class="pg-grid-price">${r.priceFormatted}</div>
+            <button class="pg-grid-btn">Ver produto</button>
+          </div>
+        </a>
+      `).join('');
+    }
   </script>
 </body>
 </html>

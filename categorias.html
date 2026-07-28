@@ -82,85 +82,93 @@
 
   <script src="content.js"></script>
   <script>
-    document.querySelectorAll('#mainNav a').forEach(a => {
-      if (a.getAttribute('href') === 'categorias.html') a.classList.add('active');
-    });
+    // Aguarda o content.js estar carregado
+    (function init() {
+      if (!window.HB || !window.HB.content) {
+        return requestAnimationFrame(init);
+      }
+      run();
+    })();
 
-    const allItems = [
-      { title:"Inteligência Emocional",      cat:"Desenvolvimento Pessoal", price:"R$ 49,90", icon:"🧠", bg:"linear-gradient(155deg,#1a1264,#3b1a78,#1b3a82)" },
-      { title:"Produtividade Máxima",         cat:"Desenvolvimento Pessoal", price:"R$ 39,90", icon:"🚀", bg:"linear-gradient(155deg,#0b1940,#10347a,#0d1f3c)" },
-      { title:"Neurociência do Aprendizado",  cat:"Ciência e Tecnologia",    price:"R$ 59,90", icon:"🔬", bg:"linear-gradient(155deg,#003d2e,#006651,#0a2d00)" },
-      { title:"Mentalidade e Sucesso",        cat:"Desenvolvimento Pessoal", price:"R$ 44,90", icon:"💡", bg:"linear-gradient(155deg,#2d0850,#6a1090,#3d0038)" },
-      { title:"Meditação Guiada",             cat:"Saúde e Bem-estar",       price:"R$ 29,90", icon:"🧘", bg:"linear-gradient(155deg,#2a0a40,#6b1598,#7c2d00,#4a1000)" },
-      { title:"Finanças Pessoais",            cat:"Negócios e Carreira",     price:"R$ 39,90", icon:"📈", bg:"linear-gradient(155deg,#0a2d00,#1a5c00,#002a60)" },
-      { title:"História do Brasil",           cat:"História e Cultura",      price:"R$ 34,90", icon:"🏛️", bg:"linear-gradient(155deg,#2d1a00,#6b3a00,#1a2d00)" },
-      { title:"Física Quântica Descomplicada",cat:"Ciência e Tecnologia",    price:"R$ 54,90", icon:"⚛️", bg:"linear-gradient(155deg,#001a40,#003d80,#1a0040)" },
-      { title:"Liderança Criativa",           cat:"Negócios e Carreira",     price:"R$ 47,90", icon:"👑", bg:"linear-gradient(155deg,#2d1a00,#805000,#3d2800)" },
-      { title:"Meditação Budista",            cat:"Espiritualidade",         price:"R$ 32,90", icon:"🌸", bg:"linear-gradient(155deg,#2d001a,#7a003d,#2d0a00)" },
-      { title:"Pintura Digital",              cat:"Artes e Criatividade",    price:"R$ 44,90", icon:"🎨", bg:"linear-gradient(155deg,#001a2d,#00406b,#1a001a)" },
-      { title:"Nutrição e Longevidade",       cat:"Saúde e Bem-estar",       price:"R$ 37,90", icon:"🥗", bg:"linear-gradient(155deg,#002d00,#005500,#2d2d00)" },
-    ];
+    function run() {
+      const { products, categories } = window.HB.content;
 
-    const cats = [...new Set(allItems.map(i => i.cat))];
-    let activeFilter = 'Tudo';
-
-    // Sidebar
-    const sidebarList = document.getElementById('catSidebarList');
-    const allCats = ['Tudo', ...cats];
-    sidebarList.innerHTML = allCats.map(c => {
-      const count = c === 'Tudo' ? allItems.length : allItems.filter(i => i.cat === c).length;
-      return `<li class="pg-cat-sidebar-item${c==='Tudo'?' active':''}" data-cat="${c}">
-        ${c} <span class="count">${count}</span>
-      </li>`;
-    }).join('');
-
-    // Filter chips
-    const chipsEl = document.getElementById('filterChips');
-    chipsEl.innerHTML = allCats.map(c =>
-      `<button class="pg-chip${c==='Tudo'?' active':''}" data-cat="${c}">${c}</button>`
-    ).join('');
-
-    function getFiltered() {
-      const q = document.getElementById('catSearch').value.toLowerCase();
-      return allItems.filter(i =>
-        (activeFilter === 'Tudo' || i.cat === activeFilter) &&
-        (i.title.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q))
-      );
-    }
-
-    function render() {
-      const items = getFiltered();
-      document.getElementById('resultCount').textContent = `${items.length} produto${items.length !== 1 ? 's' : ''} encontrado${items.length !== 1 ? 's' : ''}`;
-      document.getElementById('catGrid').innerHTML = items.map(item => `
-        <a class="pg-grid-card" href="produto.html">
-          <div class="pg-grid-thumb" style="background:${item.bg}">${item.icon}</div>
-          <div class="pg-grid-body">
-            <div class="pg-grid-cat">${item.cat}</div>
-            <div class="pg-grid-title">${item.title}</div>
-            <div class="pg-grid-price">${item.price}</div>
-            <button class="pg-grid-btn">Comprar agora</button>
-          </div>
-        </a>
-      `).join('');
-    }
-
-    function setFilter(cat) {
-      activeFilter = cat;
-      document.querySelectorAll('.pg-chip, .pg-cat-sidebar-item').forEach(el => {
-        el.classList.toggle('active', el.dataset.cat === cat);
+      document.querySelectorAll('#mainNav a').forEach(a => {
+        if (a.getAttribute('href') === 'categorias.html') a.classList.add('active');
       });
+
+      // Preparar dados dos produtos com categoria humanizada
+      const allItems = products.map(p => ({
+        ...p,
+        price: p.priceFormatted,
+        cat: p.category,
+        bg: `url('${p.image}')`,
+        icon: p.image
+      }));
+
+      const cats = [...new Set(allItems.map(i => i.cat))];
+      let activeFilter = 'Tudo';
+
+      // Sidebar com categorias
+      const sidebarList = document.getElementById('catSidebarList');
+      const allCats = ['Tudo', ...cats];
+      sidebarList.innerHTML = allCats.map(c => {
+        const count = c === 'Tudo' ? allItems.length : allItems.filter(i => i.cat === c).length;
+        return `<li class="pg-cat-sidebar-item${c==='Tudo'?' active':''}" data-cat="${c}">
+          ${c} <span class="count">${count}</span>
+        </li>`;
+      }).join('');
+
+      // Filter chips
+      const chipsEl = document.getElementById('filterChips');
+      chipsEl.innerHTML = allCats.map(c =>
+        `<button class="pg-chip${c==='Tudo'?' active':''}" data-cat="${c}">${c}</button>`
+      ).join('');
+
+      function getFiltered() {
+        const q = document.getElementById('catSearch').value.toLowerCase();
+        return allItems.filter(i =>
+          (activeFilter === 'Tudo' || i.cat === activeFilter) &&
+          (i.title.toLowerCase().includes(q) || i.cat.toLowerCase().includes(q) || i.author?.toLowerCase().includes(q))
+        );
+      }
+
+      function render() {
+        const items = getFiltered();
+        document.getElementById('resultCount').textContent = `${items.length} produto${items.length !== 1 ? 's' : ''} encontrado${items.length !== 1 ? 's' : ''}`;
+        document.getElementById('catGrid').innerHTML = items.map(item => `
+          <a class="pg-grid-card" href="produto.html?id=${item.id}" style="cursor:pointer">
+            <div class="pg-grid-thumb" style="background-image:${item.bg};background-size:cover;background-position:center;position:relative">
+              <span class="hb-type-badge" style="position:absolute;top:8px;right:8px;background:rgba(75,132,255,0.9);padding:4px 8px;border-radius:4px;font-size:0.7rem">${item.type === 'ebook' ? 'eBook' : item.type === 'audiobook' ? 'Audiobook' : item.type === 'video' ? 'Vídeo' : 'Curso'}</span>
+            </div>
+            <div class="pg-grid-body">
+              <div class="pg-grid-cat">${item.cat}</div>
+              <div class="pg-grid-title">${item.title}</div>
+              <div class="pg-grid-price">${item.price}</div>
+              <button class="pg-grid-btn" onclick="event.stopPropagation();window.location='produto.html?id=${item.id}'">Comprar agora</button>
+            </div>
+          </a>
+        `).join('');
+      }
+
+      function setFilter(cat) {
+        activeFilter = cat;
+        document.querySelectorAll('.pg-chip, .pg-cat-sidebar-item').forEach(el => {
+          el.classList.toggle('active', el.dataset.cat === cat);
+        });
+        render();
+      }
+
+      chipsEl.addEventListener('click', e => { const c = e.target.closest('[data-cat]'); if(c) setFilter(c.dataset.cat); });
+      sidebarList.addEventListener('click', e => { const c = e.target.closest('[data-cat]'); if(c) setFilter(c.dataset.cat); });
+      document.getElementById('catSearch').addEventListener('input', render);
+      document.getElementById('loadMore').addEventListener('click', () => {
+        document.getElementById('loadMore').textContent = 'Todos os resultados carregados';
+        document.getElementById('loadMore').disabled = true;
+      });
+
       render();
     }
-
-    chipsEl.addEventListener('click', e => { const c = e.target.closest('[data-cat]'); if(c) setFilter(c.dataset.cat); });
-    sidebarList.addEventListener('click', e => { const c = e.target.closest('[data-cat]'); if(c) setFilter(c.dataset.cat); });
-    document.getElementById('catSearch').addEventListener('input', render);
-    document.getElementById('loadMore').addEventListener('click', () => {
-      document.getElementById('loadMore').textContent = 'Todos os resultados carregados';
-      document.getElementById('loadMore').disabled = true;
-    });
-
-    render();
   </script>
 </body>
 </html>
