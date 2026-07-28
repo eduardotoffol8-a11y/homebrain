@@ -119,11 +119,11 @@
 
         <!-- Buy panel -->
         <div class="pg-buy-panel">
-          <div class="pg-price">R$ 59,90</div>
-          <div class="pg-installment">ou 3× de R$ 20,00 sem juros</div>
-          <button class="pg-buy-now" onclick="window.location='login.html'">
+          <div class="pg-price">GRÁTIS</div>
+          <div class="pg-installment">Acesso liberado para teste gratuito</div>
+          <button class="pg-buy-now" onclick="document.querySelector('.pg-tab-btn[data-tab=chapters]')?.click(); window.scrollTo({top: document.querySelector('.pg-tabs')?.offsetTop || 0, behavior:'smooth'})">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-            Comprar agora
+            Acessar conteúdo grátis
           </button>
           <button class="pg-buy-secondary">Adicionar à lista de desejos</button>
           <ul class="pg-buy-features">

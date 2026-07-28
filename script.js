@@ -44,7 +44,7 @@ function run() {
           <div class="hb-product-desc">${p.description}</div>
           ${stars(p.rating)}
           <div class="hb-price">${p.priceFormatted}</div>
-          <button class="hb-buy-btn" onclick="event.stopPropagation();window.location='produto.html?id=${p.id}'">Comprar agora</button>
+          <button class="hb-buy-btn" onclick="event.stopPropagation();window.location='produto.html?id=${p.id}'">Acessar grátis</button>
         </div>
       </article>
     `).join("");
