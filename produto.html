@@ -248,17 +248,13 @@
   <script src="content.js"></script>
   <script>
     // Aguarda o content.js estar carregado
-    (function init() {
+    function loadProductData() {
       if (!window.HB || !window.HB.content) {
-        return requestAnimationFrame(init);
+        setTimeout(loadProductData, 100);
+        return;
       }
-      run();
-    })();
-
-    function run() {
-      const { products } = window.HB.content;
       
-      // Extrair ID da URL: produto.html?id=python-fundamentos
+      const { products } = window.HB.content;
       const params = new URLSearchParams(window.location.search);
       const productId = params.get('id');
       const product = productId ? products.find(p => p.id === productId) : products[0];
@@ -277,53 +273,95 @@
       }));
 
       // ── RENDERIZAR HEADER DINÂMICO ──────────────
-      
-      // Atualizar breadcrumb
-      const breadcrumbCategory = document.querySelector('.pg-breadcrumb a:nth-child(3)');
-      const breadcrumbTitle = document.querySelector('.pg-breadcrumb span:last-child');
-      if (breadcrumbCategory) breadcrumbCategory.textContent = product.category;
-      if (breadcrumbTitle) breadcrumbTitle.textContent = product.title;
-      
-      // Atualizar capa/imagem
-      const productCover = document.querySelector('.pg-product-cover');
-      if (productCover) {
-        productCover.style.backgroundImage = `url('${product.image}')`;
-        productCover.style.backgroundSize = 'cover';
-        productCover.style.backgroundPosition = 'center';
+      try {
+        // 1. ATUALIZAR CAPA - usar background em vez de backgroundImage
+        const cover = document.querySelector('.pg-product-cover');
+        if (cover) {
+          cover.style.background = `url('${product.image}')`;
+          cover.style.backgroundSize = 'cover';
+          cover.style.backgroundPosition = 'center';
+          // Remover o emoji span interior
+          const emojiSpan = cover.querySelector('span');
+          if (emojiSpan) emojiSpan.remove();
+        }
+        
+        // 2. ATUALIZAR BREADCRUMB - encontrar elementos de forma mais robusta
+        const breadcrumb = document.querySelector('.pg-breadcrumb');
+        if (breadcrumb) {
+          const links = breadcrumb.querySelectorAll('a, span');
+          if (links.length >= 3) {
+            // 2º link é a categoria (após Início)
+            if (links[2]) links[2].textContent = product.category;
+          }
+          if (links.length >= 4) {
+            // Último elemento é o título atual
+            links[links.length - 1].textContent = product.title;
+          }
+        }
+        
+        // 3. TÍTULO H1
+        const title = document.querySelector('h1');
+        if (title) title.textContent = product.title;
+        
+        // 4. CATEGORIA BADGE
+        const catBadge = document.querySelector('.pg-cat-badge');
+        if (catBadge) catBadge.textContent = product.category;
+        
+        // 5. AUTOR
+        const author = document.querySelector('.pg-author');
+        if (author) author.innerHTML = `Por <strong>${product.author || 'HomeBrain'}</strong> · Publicado em 2025`;
+        
+        // 6. RATING - encontrar o primeiro número da linha de rating
+        const ratingRow = document.querySelector('.pg-rating-row');
+        if (ratingRow) {
+          const allSpans = ratingRow.querySelectorAll('span');
+          if (allSpans[0]) allSpans[0].textContent = product.rating.toFixed(1);
+          // Encontrar e atualizar contagem de avaliações
+          for (let span of allSpans) {
+            if (span.textContent.includes('avaliações')) {
+              span.textContent = `(${product.reviews} avaliações)`;
+              break;
+            }
+          }
+        }
+        
+        // 7. PREÇO
+        const priceEl = document.querySelector('.pg-price');
+        if (priceEl) priceEl.textContent = product.priceFormatted;
+        
+        // 8. PARCELAMENTO
+        const installEl = document.querySelector('.pg-installment');
+        if (installEl && product.price > 0) {
+          const installValue = (product.price / 3).toFixed(2);
+          installEl.textContent = `ou 3× de R$ ${installValue} sem juros`;
+        }
+        
+        // 9. DESCRIÇÃO CURTA
+        const shortDesc = document.querySelector('.pg-product-detail > p');
+        if (shortDesc) shortDesc.textContent = product.description;
+        
+        // 10. DESCRIÇÃO LONGA (tab)
+        const longDesc = document.querySelector('.pg-description');
+        if (longDesc) longDesc.textContent = product.fullDescription || product.description;
+        
+      } catch (e) {
+        console.error('Erro ao carregar dados do produto:', e);
       }
       
-      // Atualizar título, autor, categoria
-      const catBadge = document.querySelector('.pg-cat-badge');
-      if (catBadge) catBadge.textContent = product.category;
-      
-      const title = document.querySelector('h1');
-      if (title) title.textContent = product.title;
-      
-      const author = document.querySelector('.pg-author');
-      if (author) author.innerHTML = `Por <strong>${product.author || 'HomeBrain'}</strong> · Publicado em 2025`;
-      
-      // Atualizar rating
-      const ratingSpan = document.querySelector('.pg-rating-row span:nth-of-type(1)');
-      const reviewCount = document.querySelector('.pg-rating-row span:nth-of-type(3)');
-      if (ratingSpan) ratingSpan.textContent = product.rating.toFixed(1);
-      if (reviewCount) reviewCount.textContent = `(${product.reviews} avaliações)`;
-      
-      // Atualizar preço
-      const priceEl = document.querySelector('.pg-price');
-      const installmentEl = document.querySelector('.pg-installment');
-      if (priceEl) priceEl.textContent = product.priceFormatted;
-      if (installmentEl && product.price > 0) {
-        const installValue = (product.price / 3).toFixed(2);
-        installmentEl.textContent = `ou 3× de R$ ${installValue} sem juros`;
-      }
-      
-      // Atualizar descrição curta
-      const shortDesc = document.querySelector('.pg-product-detail > p:last-child');
-      if (shortDesc) shortDesc.textContent = product.description;
-      
-      // Atualizar descrição longa na aba
-      const longDesc = document.querySelector('.pg-description');
-      if (longDesc) longDesc.textContent = product.fullDescription || product.description;
+      // Continuar com o resto do script...
+      run(chapters, product, products);
+    }
+
+    // Iniciar quando DOM e content.js estão prontos
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadProductData);
+    } else {
+      loadProductData();
+    }
+
+    // Resto do script original continua aqui...
+    function run(chapters, product, products) {
+      // Continuar com funcionalidades de tabs, audio player, etc.
 
       // ── Tabs ────────────────────────────────────
       document.querySelectorAll('.pg-tab-btn').forEach(btn => {
