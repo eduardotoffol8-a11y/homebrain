@@ -277,21 +277,53 @@
       }));
 
       // ── RENDERIZAR HEADER DINÂMICO ──────────────
-      document.querySelectorAll('.pg-product-img').forEach(el => {
-        el.style.backgroundImage = `url('${product.image}')`;
-      });
-      document.querySelectorAll('.pg-product-title').forEach(el => el.textContent = product.title);
-      document.querySelectorAll('.pg-product-author').forEach(el => el.textContent = product.author || 'HomeBrain');
-      document.querySelectorAll('.pg-product-price').forEach(el => el.textContent = product.priceFormatted);
-      document.querySelectorAll('.pg-product-rating').forEach(el => {
-        let stars = '';
-        for (let i = 1; i <= 5; i++) {
-          stars += `<span class="hb-star${i > product.rating ? " empty" : ""}">★</span>`;
-        }
-        el.innerHTML = stars + ` <span class="hb-reviews">(${product.reviews})</span>`;
-      });
-      document.querySelectorAll('.pg-product-desc').forEach(el => el.textContent = product.description);
-      document.querySelectorAll('.pg-product-full').forEach(el => el.textContent = product.fullDescription || product.description);
+      
+      // Atualizar breadcrumb
+      const breadcrumbCategory = document.querySelector('.pg-breadcrumb a:nth-child(3)');
+      const breadcrumbTitle = document.querySelector('.pg-breadcrumb span:last-child');
+      if (breadcrumbCategory) breadcrumbCategory.textContent = product.category;
+      if (breadcrumbTitle) breadcrumbTitle.textContent = product.title;
+      
+      // Atualizar capa/imagem
+      const productCover = document.querySelector('.pg-product-cover');
+      if (productCover) {
+        productCover.style.backgroundImage = `url('${product.image}')`;
+        productCover.style.backgroundSize = 'cover';
+        productCover.style.backgroundPosition = 'center';
+      }
+      
+      // Atualizar título, autor, categoria
+      const catBadge = document.querySelector('.pg-cat-badge');
+      if (catBadge) catBadge.textContent = product.category;
+      
+      const title = document.querySelector('h1');
+      if (title) title.textContent = product.title;
+      
+      const author = document.querySelector('.pg-author');
+      if (author) author.innerHTML = `Por <strong>${product.author || 'HomeBrain'}</strong> · Publicado em 2025`;
+      
+      // Atualizar rating
+      const ratingSpan = document.querySelector('.pg-rating-row span:nth-of-type(1)');
+      const reviewCount = document.querySelector('.pg-rating-row span:nth-of-type(3)');
+      if (ratingSpan) ratingSpan.textContent = product.rating.toFixed(1);
+      if (reviewCount) reviewCount.textContent = `(${product.reviews} avaliações)`;
+      
+      // Atualizar preço
+      const priceEl = document.querySelector('.pg-price');
+      const installmentEl = document.querySelector('.pg-installment');
+      if (priceEl) priceEl.textContent = product.priceFormatted;
+      if (installmentEl && product.price > 0) {
+        const installValue = (product.price / 3).toFixed(2);
+        installmentEl.textContent = `ou 3× de R$ ${installValue} sem juros`;
+      }
+      
+      // Atualizar descrição curta
+      const shortDesc = document.querySelector('.pg-product-detail > p:last-child');
+      if (shortDesc) shortDesc.textContent = product.description;
+      
+      // Atualizar descrição longa na aba
+      const longDesc = document.querySelector('.pg-description');
+      if (longDesc) longDesc.textContent = product.fullDescription || product.description;
 
       // ── Tabs ────────────────────────────────────
       document.querySelectorAll('.pg-tab-btn').forEach(btn => {
