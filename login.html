@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HomeBrain | Entrar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="pages.css"/>
+</head>
+<body>
+
+  <header class="hb-header">
+    <div class="hb-header-inner">
+      <a class="hb-logo" href="index.html">
+        <div class="hb-logo-mark">🧠</div>
+        <div class="hb-logo-text">
+          <strong>HomeBrain</strong>
+          <span>Conectando ideias, estudos e aprendizado.</span>
+        </div>
+      </a>
+      <nav class="hb-nav" id="mainNav">
+        <a href="index.html">Explorar</a>
+        <a href="categorias.html">Categorias</a>
+        <a href="trilhas.html">Trilhas</a>
+        <a href="index.html">Coleções</a>
+        <a href="planos.html">Planos</a>
+        <a href="#">Sobre</a>
+      </nav>
+      <div class="hb-header-right">
+        <button class="hb-icon-btn" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <a class="hb-btn hb-btn-primary" href="login.html" style="padding:8px 16px;font-size:.85rem;border-radius:999px;">Entrar</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="pg-auth-wrap">
+
+      <!-- Left brand panel -->
+      <div class="pg-auth-left">
+        <div class="pg-auth-left-brand">
+          <div class="big-icon">🧠</div>
+          <h2>Bem-vindo ao<br><span class="hb-grad">HomeBrain</span></h2>
+          <p>A biblioteca inteligente do conhecimento. Estudar, ouvir e explorar nunca foi tão conectado.</p>
+          <ul class="pg-auth-perks">
+            <li class="pg-auth-perk">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Acesso a mais de 4.500 produtos digitais
+            </li>
+            <li class="pg-auth-perk">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Trilhas de estudo com progresso salvo
+            </li>
+            <li class="pg-auth-perk">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Leitura em voz para todos os conteúdos
+            </li>
+            <li class="pg-auth-perk">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Compra segura com 7 dias de garantia
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right form panel -->
+      <div class="pg-auth-right">
+        <div class="pg-auth-card">
+          <h3>Acessar sua conta</h3>
+          <p class="pg-auth-sub">Ou crie uma conta gratuitamente.</p>
+
+          <div class="pg-auth-tabs">
+            <button class="pg-auth-tab active" data-tab="login">Entrar</button>
+            <button class="pg-auth-tab" data-tab="cadastro">Criar conta</button>
+          </div>
+
+          <!-- LOGIN FORM -->
+          <div class="pg-tab-content active" id="tab-login">
+            <a class="pg-google-btn" href="#">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Continuar com Google
+            </a>
+            <div class="pg-auth-divider" style="margin:16px 0">ou</div>
+            <form class="pg-form" onsubmit="return false">
+              <div class="pg-form-group">
+                <label for="email">E-mail</label>
+                <input class="pg-form-input" id="email" type="email" placeholder="seu@email.com" autocomplete="email"/>
+              </div>
+              <div class="pg-form-group">
+                <label for="senha">Senha</label>
+                <input class="pg-form-input" id="senha" type="password" placeholder="••••••••" autocomplete="current-password"/>
+                <a class="pg-form-forgot" href="#">Esqueci minha senha</a>
+              </div>
+              <button class="pg-form-submit" type="submit" onclick="window.location='index.html'">Entrar</button>
+            </form>
+          </div>
+
+          <!-- CADASTRO FORM -->
+          <div class="pg-tab-content" id="tab-cadastro">
+            <a class="pg-google-btn" href="#">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Cadastrar com Google
+            </a>
+            <div class="pg-auth-divider" style="margin:16px 0">ou</div>
+            <form class="pg-form" onsubmit="return false">
+              <div class="pg-form-group">
+                <label for="nome">Nome completo</label>
+                <input class="pg-form-input" id="nome" type="text" placeholder="Seu nome" autocomplete="name"/>
+              </div>
+              <div class="pg-form-group">
+                <label for="email2">E-mail</label>
+                <input class="pg-form-input" id="email2" type="email" placeholder="seu@email.com" autocomplete="email"/>
+              </div>
+              <div class="pg-form-group">
+                <label for="senha2">Senha</label>
+                <input class="pg-form-input" id="senha2" type="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password"/>
+              </div>
+              <button class="pg-form-submit" type="submit" onclick="window.location='index.html'">Criar conta gratuita</button>
+            </form>
+          </div>
+
+          <p class="pg-auth-switch">
+            Ainda não tem conta? <a href="#" data-switch="cadastro">Criar gratuitamente</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Auth tabs
+    const authTabs = document.querySelectorAll('.pg-auth-tab');
+    authTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        authTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.pg-tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+    document.querySelectorAll('[data-switch]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(`.pg-auth-tab[data-tab="${a.dataset.switch}"]`).click();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HomeBrain | Planos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="pages.css"/>
+</head>
+<body>
+
+  <header class="hb-header">
+    <div class="hb-header-inner">
+      <a class="hb-logo" href="index.html">
+        <div class="hb-logo-mark">🧠</div>
+        <div class="hb-logo-text"><strong>HomeBrain</strong><span>Conectando ideias, estudos e aprendizado.</span></div>
+      </a>
+      <nav class="hb-nav" id="mainNav">
+        <a href="index.html">Explorar</a>
+        <a href="categorias.html">Categorias</a>
+        <a href="trilhas.html">Trilhas</a>
+        <a href="index.html">Coleções</a>
+        <a href="planos.html">Planos</a>
+        <a href="#">Sobre</a>
+      </nav>
+      <div class="hb-header-right">
+        <button class="hb-icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+        <a class="hb-user" href="login.html">
+          <div class="hb-avatar">E</div><span>Eduardo</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="pg-plans-hero">
+      <h1>Escolha seu <span class="hb-grad">plano ideal</span></h1>
+      <p>Acesse a maior biblioteca de conhecimento do Brasil. Comece grátis e evolua no seu ritmo.</p>
+      <div class="pg-toggle">
+        <button class="pg-toggle-btn active" id="btnMensal">Mensal</button>
+        <button class="pg-toggle-btn" id="btnAnual">Anual <span style="font-size:.7rem;background:rgba(25,242,196,.15);color:#19f2c4;padding:2px 7px;border-radius:999px;margin-left:4px">-40%</span></button>
+      </div>
+    </div>
+
+    <!-- Pricing cards -->
+    <div class="pg-plans-grid" id="plansGrid">
+
+      <!-- Gratuito -->
+      <div class="pg-plan-card">
+        <div class="pg-plan-name">Gratuito</div>
+        <div class="pg-plan-price">R$ 0<span>/mês</span></div>
+        <div class="pg-plan-period">Para sempre gratuito</div>
+        <button class="pg-plan-cta outline" onclick="window.location='login.html'">Começar grátis</button>
+        <ul class="pg-plan-features">
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Acesso a 50 conteúdos gratuitos</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Leitura em voz (texto)</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 1 trilha de estudo</li>
+          <li class="pg-plan-feat disabled"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Audiobooks completos</li>
+          <li class="pg-plan-feat disabled"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Download offline</li>
+          <li class="pg-plan-feat disabled"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Suporte prioritário</li>
+        </ul>
+      </div>
+
+      <!-- Pro (featured) -->
+      <div class="pg-plan-card featured">
+        <div class="pg-plan-badge">⭐ Mais popular</div>
+        <div class="pg-plan-name">Pro</div>
+        <div class="pg-plan-price" id="priceProMensal">R$ 29<span>/mês</span></div>
+        <div class="pg-plan-period" id="periodPro">Cancele quando quiser</div>
+        <button class="pg-plan-cta primary" onclick="window.location='login.html'">Assinar Pro</button>
+        <ul class="pg-plan-features">
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Acesso a todo o catálogo</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Leitura em voz em todos os formatos</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Trilhas ilimitadas de estudo</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Audiobooks completos</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Download offline (3 dispositivos)</li>
+          <li class="pg-plan-feat disabled"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Suporte prioritário 24h</li>
+        </ul>
+      </div>
+
+      <!-- Premium -->
+      <div class="pg-plan-card">
+        <div class="pg-plan-name">Premium</div>
+        <div class="pg-plan-price" id="pricePremiumMensal">R$ 59<span>/mês</span></div>
+        <div class="pg-plan-period" id="periodPremium">Tudo do Pro + mais</div>
+        <button class="pg-plan-cta primary" onclick="window.location='login.html'">Assinar Premium</button>
+        <ul class="pg-plan-features">
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Tudo do plano Pro</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Download offline (dispositivos ilimitados)</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Suporte prioritário 24h</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Acesso antecipado a novidades</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Desconto de 20% em compras avulsas</li>
+          <li class="pg-plan-feat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Sessões ao vivo mensais</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- FAQ -->
+    <div class="pg-faq">
+      <h2>Dúvidas frequentes</h2>
+
+      <div class="pg-faq-item">
+        <div class="pg-faq-q">Posso cancelar quando quiser?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="pg-faq-a">Sim. Você pode cancelar a qualquer momento pelo painel de conta. O acesso permanece até o fim do período já pago.</div>
+      </div>
+
+      <div class="pg-faq-item">
+        <div class="pg-faq-q">Há garantia de reembolso?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="pg-faq-a">Sim. Oferecemos 7 dias de garantia total. Basta entrar em contato e devolveremos 100% do valor.</div>
+      </div>
+
+      <div class="pg-faq-item">
+        <div class="pg-faq-q">Posso usar em mais de um dispositivo?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="pg-faq-a">No plano Pro você pode usar em até 3 dispositivos. No Premium, o acesso é ilimitado.</div>
+      </div>
+
+      <div class="pg-faq-item">
+        <div class="pg-faq-q">Como funciona o desconto anual?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="pg-faq-a">Ao escolher o plano anual, você paga 12 meses de uma vez e recebe 40% de desconto em relação ao preço mensal. É a opção mais econômica.</div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="hb-footer">
+    <div class="hb-footer-inner">
+      <div class="hb-footer-brand">
+        <a class="hb-footer-logo" href="index.html">
+          <span style="font-size:1.4rem">🧠</span>
+          <strong>HomeBrain</strong>
+        </a>
+        <p>A biblioteca inteligente do conhecimento. Conectando mentes e transformando vidas através do estudo.</p>
+      </div>
+      <div class="hb-footer-col">
+        <h4>Explorar</h4>
+        <ul>
+          <li><a href="categorias.html">Categorias</a></li>
+          <li><a href="trilhas.html">Trilhas</a></li>
+          <li><a href="planos.html">Planos</a></li>
+          <li><a href="produto.html">Destaque</a></li>
+        </ul>
+      </div>
+      <div class="hb-footer-col">
+        <h4>Conta</h4>
+        <ul>
+          <li><a href="login.html">Entrar</a></li>
+          <li><a href="login.html">Criar conta</a></li>
+          <li><a href="planos.html">Assinar</a></li>
+        </ul>
+      </div>
+      <div class="hb-footer-col">
+        <h4>Suporte</h4>
+        <ul>
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Termos de uso</a></li>
+          <li><a href="#">Privacidade</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="hb-footer-copy">© 2026 HomeBrain. Todos os direitos reservados.</div>
+  </footer>
+
+  <script>
+    // Active nav
+    document.querySelectorAll('#mainNav a').forEach(a => {
+      if (a.getAttribute('href') === 'planos.html') a.classList.add('active');
+    });
+
+    // Toggle mensal/anual
+    const prices = { pro: { mensal: 'R$ 29', anual: 'R$ 17' }, premium: { mensal: 'R$ 59', anual: 'R$ 35' } };
+    let mode = 'mensal';
+    function setMode(m) {
+      mode = m;
+      document.getElementById('btnMensal').classList.toggle('active', m === 'mensal');
+      document.getElementById('btnAnual').classList.toggle('active', m === 'anual');
+      document.getElementById('priceProMensal').innerHTML = `${prices.pro[m]}<span>/mês</span>`;
+      document.getElementById('pricePremiumMensal').innerHTML = `${prices.premium[m]}<span>/mês</span>`;
+      document.getElementById('periodPro').textContent = m === 'anual' ? 'Cobrado anualmente' : 'Cancele quando quiser';
+      document.getElementById('periodPremium').textContent = m === 'anual' ? 'Cobrado anualmente' : 'Tudo do Pro + mais';
+    }
+    document.getElementById('btnMensal').addEventListener('click', () => setMode('mensal'));
+    document.getElementById('btnAnual').addEventListener('click', () => setMode('anual'));
+
+    // FAQ accordion
+    document.querySelectorAll('.pg-faq-item').forEach(item => {
+      item.querySelector('.pg-faq-q').addEventListener('click', () => {
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

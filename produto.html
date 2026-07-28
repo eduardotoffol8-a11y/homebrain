@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HomeBrain | Neurociência do Aprendizado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="pages.css"/>
+</head>
+<body>
+
+  <header class="hb-header">
+    <div class="hb-header-inner">
+      <a class="hb-logo" href="index.html">
+        <div class="hb-logo-mark">🧠</div>
+        <div class="hb-logo-text"><strong>HomeBrain</strong><span>Conectando ideias, estudos e aprendizado.</span></div>
+      </a>
+      <nav class="hb-nav" id="mainNav">
+        <a href="index.html">Explorar</a>
+        <a href="categorias.html">Categorias</a>
+        <a href="trilhas.html">Trilhas</a>
+        <a href="index.html">Coleções</a>
+        <a href="planos.html">Planos</a>
+        <a href="#">Sobre</a>
+      </nav>
+      <div class="hb-header-right">
+        <button class="hb-icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+        <button class="hb-icon-btn hb-cart-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="hb-badge">2</span></button>
+        <a class="hb-user" href="login.html"><div class="hb-avatar">E</div><span>Eduardo</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="pg-breadcrumb">
+    <a href="index.html">Início</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    <a href="categorias.html">Ciência e Tecnologia</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    <span>Neurociência do Aprendizado</span>
+  </div>
+
+  <main>
+
+    <!-- Product layout -->
+    <div class="pg-product-wrap">
+
+      <!-- Left: cover + audio player -->
+      <div>
+        <div class="pg-product-cover" style="background:linear-gradient(155deg,#003d2e,#006651,#0a2d00)">
+          <span style="font-size:7rem;filter:drop-shadow(0 0 30px rgba(0,200,120,0.5))">🔬</span>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="hb-player">
+          <div class="hb-player-track">
+            <strong id="playerTitle">Cap. 1 — Como o cérebro aprende</strong>
+            <span>Neurociência do Aprendizado</span>
+          </div>
+
+          <div class="hb-player-progress-wrap">
+            <span class="hb-player-time" id="timeElapsed">0:00</span>
+            <div class="hb-player-bar" id="progressBar">
+              <div class="hb-player-fill" id="progressFill"></div>
+            </div>
+            <span class="hb-player-time" id="timeTotal">24:38</span>
+          </div>
+
+          <div class="hb-player-controls">
+            <button class="hb-ctrl-btn" id="prevBtn" title="Capítulo anterior">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+            </button>
+            <button class="hb-ctrl-btn" id="rewindBtn" title="Voltar 15s">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6"/><path d="M2.66 15.57a10 10 0 1 0 .57-8.38"/></svg>
+            </button>
+            <button class="hb-play-btn" id="playBtn" title="Play/Pause">
+              <svg id="playIcon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="pauseIcon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <button class="hb-ctrl-btn" id="forwardBtn" title="Avançar 15s">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6"/><path d="M21.34 15.57a10 10 0 1 1-.57-8.38"/></svg>
+            </button>
+            <button class="hb-ctrl-btn" id="nextBtn2" title="Próximo capítulo">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+            </button>
+          </div>
+
+          <div class="hb-player-footer">
+            <button class="hb-ctrl-btn" id="voiceBtn" title="Leitura em voz">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </button>
+            <select class="hb-speed-select" id="speedSelect">
+              <option value="0.75">0.75×</option>
+              <option value="1" selected>1×</option>
+              <option value="1.25">1.25×</option>
+              <option value="1.5">1.5×</option>
+              <option value="2">2×</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: details + buy -->
+      <div class="pg-product-detail">
+        <span class="pg-cat-badge">🔬 Ciência e Tecnologia</span>
+        <h1>Neurociência do Aprendizado</h1>
+        <p class="pg-author">Por <strong>Dr. Carlos Menezes</strong> · Publicado em 2025</p>
+
+        <div class="pg-rating-row">
+          <div class="hb-stars">
+            <span class="hb-star">★</span><span class="hb-star">★</span>
+            <span class="hb-star">★</span><span class="hb-star">★</span><span class="hb-star">★</span>
+          </div>
+          <span style="font-size:.85rem;font-weight:700">5.0</span>
+          <span style="font-size:.82rem;color:var(--muted)">(412 avaliações)</span>
+        </div>
+
+        <!-- Buy panel -->
+        <div class="pg-buy-panel">
+          <div class="pg-price">R$ 59,90</div>
+          <div class="pg-installment">ou 3× de R$ 20,00 sem juros</div>
+          <button class="pg-buy-now" onclick="window.location='login.html'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Comprar agora
+          </button>
+          <button class="pg-buy-secondary">Adicionar à lista de desejos</button>
+          <ul class="pg-buy-features">
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Acesso vitalício ao conteúdo
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Leitura em voz integrada
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Download em PDF e ePub
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              7 dias de garantia total
+            </li>
+          </ul>
+        </div>
+
+        <!-- Short description -->
+        <p style="color:rgba(255,255,255,.7);font-size:.9rem;line-height:1.7">
+          Descubra como o cérebro humano cria memórias, consolida aprendizados e supera bloqueios cognitivos.
+          Com base nas mais recentes pesquisas em neurociência, este livro oferece estratégias práticas para
+          aprender qualquer coisa de forma mais rápida, duradoura e eficiente.
+        </p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="pg-tabs">
+      <div class="pg-tab-nav">
+        <button class="pg-tab-btn active" data-tab="desc">Descrição</button>
+        <button class="pg-tab-btn" data-tab="chapters">Capítulos</button>
+        <button class="pg-tab-btn" data-tab="reviews">Avaliações</button>
+      </div>
+
+      <!-- Descrição -->
+      <div class="pg-tab-content active" id="tab-desc">
+        <p class="pg-description">
+          Este livro é uma jornada fascinante pelo funcionamento interno do cérebro humano no contexto do
+          aprendizado. O Dr. Carlos Menezes, neurocientista com mais de 20 anos de pesquisa, traduz conceitos
+          complexos em linguagem acessível e cheia de exemplos práticos do cotidiano.<br><br>
+          Você vai aprender sobre a plasticidade neuronal — a capacidade do cérebro de se reorganizar e criar
+          novas conexões ao longo de toda a vida. Vai entender por que algumas informações "ficam" na memória
+          enquanto outras se perdem, e o que fazer para mudar isso.<br><br>
+          O livro cobre técnicas como a <strong>repetição espaçada</strong>, o <strong>método interleaving</strong>,
+          a importância do sono para a consolidação da memória, e como a emoção potencializa (ou prejudica)
+          o aprendizado.<br><br>
+          Ideal para estudantes, professores, profissionais em transição de carreira ou qualquer pessoa que
+          deseja usar o cérebro com mais inteligência.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px">
+          <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">📄</div>
+            <strong style="display:block;font-size:.9rem">248 páginas</strong>
+            <small style="color:var(--muted)">Texto completo</small>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">🎧</div>
+            <strong style="display:block;font-size:.9rem">6h 22min</strong>
+            <small style="color:var(--muted)">Versão áudio</small>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid var(--border);padding:14px;border-radius:14px;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">🌐</div>
+            <strong style="display:block;font-size:.9rem">Português</strong>
+            <small style="color:var(--muted)">Idioma</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capítulos -->
+      <div class="pg-tab-content" id="tab-chapters">
+        <ul class="pg-chapter-list" id="chapterList"></ul>
+      </div>
+
+      <!-- Avaliações -->
+      <div class="pg-tab-content" id="tab-reviews">
+        <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;padding:20px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px">
+          <div style="text-align:center">
+            <div style="font-size:3rem;font-weight:800;line-height:1">5.0</div>
+            <div class="hb-stars" style="justify-content:center;margin:4px 0">
+              <span class="hb-star">★</span><span class="hb-star">★</span><span class="hb-star">★</span><span class="hb-star">★</span><span class="hb-star">★</span>
+            </div>
+            <small style="color:var(--muted)">412 avaliações</small>
+          </div>
+          <div style="flex:1">
+            <div id="ratingBars"></div>
+          </div>
+        </div>
+        <div class="pg-review-list" id="reviewList"></div>
+      </div>
+    </div>
+
+    <!-- Related -->
+    <div class="pg-related">
+      <div class="hb-section-head">
+        <h2>Você também pode gostar</h2>
+        <a href="categorias.html">Ver catálogo →</a>
+      </div>
+      <div class="pg-related-grid" id="relatedGrid"></div>
+    </div>
+
+  </main>
+
+  <footer class="hb-footer">
+    <div class="hb-footer-inner">
+      <div class="hb-footer-brand">
+        <a class="hb-footer-logo" href="index.html"><span style="font-size:1.4rem">🧠</span><strong>HomeBrain</strong></a>
+        <p>A biblioteca inteligente do conhecimento.</p>
+      </div>
+      <div class="hb-footer-col"><h4>Explorar</h4><ul><li><a href="categorias.html">Categorias</a></li><li><a href="trilhas.html">Trilhas</a></li><li><a href="planos.html">Planos</a></li></ul></div>
+      <div class="hb-footer-col"><h4>Conta</h4><ul><li><a href="login.html">Entrar</a></li><li><a href="login.html">Criar conta</a></li></ul></div>
+      <div class="hb-footer-col"><h4>Suporte</h4><ul><li><a href="#">Sobre nós</a></li><li><a href="#">Contato</a></li><li><a href="#">Termos</a></li></ul></div>
+    </div>
+    <div class="hb-footer-copy">© 2026 HomeBrain. Todos os direitos reservados.</div>
+  </footer>
+
+  <script>
+    // ── Tabs ──────────────────────────────────────────────────
+    document.querySelectorAll('.pg-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pg-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.pg-tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── Chapters ──────────────────────────────────────────────
+    const chapters = [
+      { n:1, title:"Como o cérebro aprende",             dur:"24:38", text:"O cérebro humano possui cerca de 86 bilhões de neurônios conectados em redes complexas. A aprendizagem ocorre quando essas conexões são fortalecidas por repetição e emoção." },
+      { n:2, title:"Memória de curto e longo prazo",      dur:"18:45", text:"A memória não é um arquivo estático. Cada vez que você acessa uma memória, ela é reconstruída. A consolidação da memória ocorre principalmente durante o sono." },
+      { n:3, title:"Plasticidade neuronal",               dur:"22:10", text:"O cérebro adulto continua criando novas conexões neurais. A neuroplasticidade significa que a capacidade de aprender não diminui com a idade — ela muda de forma." },
+      { n:4, title:"A técnica da repetição espaçada",     dur:"20:55", text:"Revisar conteúdo em intervalos crescentes é a técnica mais eficaz para retenção de longo prazo, segundo dezenas de estudos em neurociência cognitiva." },
+      { n:5, title:"Emoção e aprendizagem",               dur:"16:30", text:"A amígdala, centro emocional do cérebro, fortalece as memórias associadas a emoções. Aprender algo que nos move emocionalmente é aprender com mais profundidade." },
+      { n:6, title:"Sono e consolidação de memórias",    dur:"19:20", text:"Durante o sono REM, o hipocampo 'replay' os aprendizados do dia para o córtex, consolidando as informações em memória de longo prazo." },
+      { n:7, title:"Foco profundo e Flow",                dur:"25:10", text:"O estado de flow — descrito por Csikszentmihalyi — é a condição ideal para o aprendizado. Nele, o cérebro libera dopamina e norepinefrina, otimizando a atenção." },
+      { n:8, title:"Técnicas práticas para estudar mais", dur:"21:42", text:"Aplicando os princípios da neurociência: intervalos ativos, autoexplicação, prática de recordação e simulação são as estratégias mais comprovadas pela ciência." },
+    ];
+
+    let currentChapter = 0;
+    let isPlaying = false;
+    let progress = 0;
+    let progressInterval = null;
+    let utterance = null;
+
+    document.getElementById('chapterList').innerHTML = chapters.map((c, i) => `
+      <li class="pg-chapter-item" data-idx="${i}">
+        <span class="pg-chapter-num">${c.n}</span>
+        <span class="pg-chapter-title">${c.title}</span>
+        <span class="pg-chapter-dur">${c.dur}</span>
+        <span class="pg-chapter-play">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </span>
+      </li>
+    `).join('');
+
+    document.getElementById('chapterList').addEventListener('click', e => {
+      const li = e.target.closest('[data-idx]');
+      if (li) {
+        currentChapter = parseInt(li.dataset.idx);
+        loadChapter();
+        playChapter();
+      }
+    });
+
+    function loadChapter() {
+      const c = chapters[currentChapter];
+      document.getElementById('playerTitle').textContent = `Cap. ${c.n} — ${c.title}`;
+      document.getElementById('timeTotal').textContent = c.dur;
+      progress = 0;
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('timeElapsed').textContent = '0:00';
+    }
+
+    function playChapter() {
+      stopProgress();
+      if (speechSynthesis.speaking) speechSynthesis.cancel();
+      const c = chapters[currentChapter];
+      utterance = new SpeechSynthesisUtterance(c.text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = parseFloat(document.getElementById('speedSelect').value);
+      utterance.onend = () => {
+        isPlaying = false;
+        stopProgress();
+        document.getElementById('playIcon').style.display = 'block';
+        document.getElementById('pauseIcon').style.display = 'none';
+        if (currentChapter < chapters.length - 1) {
+          currentChapter++;
+          loadChapter();
+        }
+      };
+      speechSynthesis.speak(utterance);
+      isPlaying = true;
+      document.getElementById('playIcon').style.display = 'none';
+      document.getElementById('pauseIcon').style.display = 'block';
+      startProgress();
+    }
+
+    function startProgress() {
+      const dur = parseDur(chapters[currentChapter].dur);
+      const tick = 300;
+      progressInterval = setInterval(() => {
+        progress = Math.min(progress + (tick / (dur * 1000)) * 100, 100);
+        document.getElementById('progressFill').style.width = progress + '%';
+        const elapsed = Math.round((progress / 100) * dur);
+        document.getElementById('timeElapsed').textContent = fmtTime(elapsed);
+      }, tick);
+    }
+
+    function stopProgress() {
+      clearInterval(progressInterval);
+      progressInterval = null;
+    }
+
+    function parseDur(s) {
+      const [m, sec] = s.split(':').map(Number);
+      return m * 60 + sec;
+    }
+
+    function fmtTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      return `${m}:${sec.toString().padStart(2,'0')}`;
+    }
+
+    document.getElementById('playBtn').addEventListener('click', () => {
+      if (isPlaying) {
+        speechSynthesis.pause();
+        stopProgress();
+        isPlaying = false;
+        document.getElementById('playIcon').style.display = 'block';
+        document.getElementById('pauseIcon').style.display = 'none';
+      } else {
+        if (speechSynthesis.paused) {
+          speechSynthesis.resume();
+          startProgress();
+        } else {
+          playChapter();
+        }
+        isPlaying = true;
+        document.getElementById('playIcon').style.display = 'none';
+        document.getElementById('pauseIcon').style.display = 'block';
+      }
+    });
+
+    document.getElementById('voiceBtn').addEventListener('click', playChapter);
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentChapter > 0) { currentChapter--; loadChapter(); }
+    });
+    document.getElementById('nextBtn2').addEventListener('click', () => {
+      if (currentChapter < chapters.length - 1) { currentChapter++; loadChapter(); }
+    });
+    document.getElementById('rewindBtn').addEventListener('click', () => {
+      progress = Math.max(0, progress - 5);
+      document.getElementById('progressFill').style.width = progress + '%';
+    });
+    document.getElementById('forwardBtn').addEventListener('click', () => {
+      progress = Math.min(100, progress + 5);
+      document.getElementById('progressFill').style.width = progress + '%';
+    });
+    document.getElementById('speedSelect').addEventListener('change', e => {
+      if (utterance) utterance.rate = parseFloat(e.target.value);
+    });
+    document.getElementById('progressBar').addEventListener('click', e => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      progress = ((e.clientX - rect.left) / rect.width) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+    });
+
+    // ── Reviews ──────────────────────────────────────────────
+    const reviews = [
+      { name:"Ana Paula Ferreira",  init:"A", rating:5, date:"12 Jul 2026", text:"Livro incrível! Mudou completamente a forma como eu estudo. A parte sobre repetição espaçada foi um game-changer para mim." },
+      { name:"Marcos Oliveira",     init:"M", rating:5, date:"8 Jul 2026",  text:"Finalmente um livro de neurociência acessível e prático. Cada capítulo tem insights que aplico imediatamente no meu dia a dia." },
+      { name:"Juliana Santos",      init:"J", rating:5, date:"2 Jul 2026",  text:"Recomendo para qualquer pessoa que quer estudar melhor. A parte do sono e memória abriu minha cabeça! A leitura em voz da plataforma é perfeita." },
+    ];
+
+    document.getElementById('ratingBars').innerHTML = [5,4,3,2,1].map(star => {
+      const pct = star === 5 ? 89 : star === 4 ? 8 : star === 3 ? 2 : 1;
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <span style="font-size:.72rem;color:var(--muted);width:20px">${star}★</span>
+        <div style="flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:3px">
+          <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:3px"></div>
+        </div>
+        <span style="font-size:.72rem;color:var(--muted);width:28px">${pct}%</span>
+      </div>`;
+    }).join('');
+
+    document.getElementById('reviewList').innerHTML = reviews.map(r => `
+      <div class="pg-review">
+        <div class="pg-review-header">
+          <div class="pg-reviewer-av">${r.init}</div>
+          <div>
+            <div class="pg-reviewer-name">${r.name}</div>
+            <div class="pg-reviewer-date">${r.date}</div>
+          </div>
+          <div class="hb-stars" style="margin-left:auto">
+            ${'<span class="hb-star">★</span>'.repeat(r.rating)}
+          </div>
+        </div>
+        <div class="pg-review-text">${r.text}</div>
+      </div>
+    `).join('');
+
+    // ── Related products ──────────────────────────────────────
+    const related = [
+      { title:"Inteligência Emocional", icon:"🧠", price:"R$ 49,90", bg:"linear-gradient(155deg,#1a1264,#3b1a78)" },
+      { title:"Mindset de Crescimento", icon:"🌱", price:"R$ 42,90", bg:"linear-gradient(155deg,#003d1a,#006636)" },
+      { title:"A Mente Iluminada",      icon:"✨", price:"R$ 38,90", bg:"linear-gradient(155deg,#2d1a50,#5a2d80)" },
+      { title:"Física Quântica",        icon:"⚛️", price:"R$ 54,90", bg:"linear-gradient(155deg,#001a40,#003d80)" },
+    ];
+
+    document.getElementById('relatedGrid').innerHTML = related.map(r => `
+      <a class="pg-grid-card" href="produto.html">
+        <div class="pg-grid-thumb" style="background:${r.bg}">${r.icon}</div>
+        <div class="pg-grid-body">
+          <div class="pg-grid-title">${r.title}</div>
+          <div class="pg-grid-price">${r.price}</div>
+          <button class="pg-grid-btn">Ver produto</button>
+        </div>
+      </a>
+    `).join('');
+  </script>
+</body>
+</html>
